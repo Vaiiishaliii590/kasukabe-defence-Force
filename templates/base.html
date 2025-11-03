@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Character Interviews</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --fg: #e2e8f0;
+            --muted: #94a3b8;
+            --card: #111827;
+            --border: #1f2937;
+            --einstein: #60a5fa;
+            --newton: #34d399;
+            --aryabhatta: #f472b6;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 800px at 20% 10%, #0b1220, var(--bg));
+            color: var(--fg);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 48px 20px 24px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            letter-spacing: 0.3px;
+        }
+        header p { margin: 0; color: var(--muted); }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 48px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(17,24,39,0.9), rgba(15,23,42,0.8));
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+        }
+
+        .card h2 { margin: 0 0 6px; font-size: 22px; }
+        .card .role { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+        .card .intro { margin: 0 0 10px; font-weight: 600; }
+        .card .bio { margin: 0 0 14px; color: var(--muted); }
+
+        .card ul { margin: 0; padding-left: 18px; }
+        .card li { margin-bottom: 8px; }
+
+        /* Color variants */
+        .card.einstein { border-left-color: var(--einstein); }
+        .card.newton { border-left-color: var(--newton); }
+        .card.aryabhatta { border-left-color: var(--aryabhatta); }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Historical Character Interviews</h1>
+        <p>AI-styled intros and key discoveries — clean and simple MVP</p>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
+
+

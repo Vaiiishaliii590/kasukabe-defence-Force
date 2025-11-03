@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card einstein">
+    <span class="badge">Physics</span>
+    <h2>Albert Einstein</h2>
+    <p class="role">Theoretical Physicist</p>
+    <p class="intro">“I seek simplicity in the fabric of reality.”</p>
+    <p class="bio">German-born physicist who revolutionized our understanding of space, time, and energy. His work reshaped modern physics and continues to influence science and technology.</p>
+    <ul>
+      <li>Special and General Relativity</li>
+      <li>Photoelectric Effect (Nobel Prize, 1921)</li>
+      <li>Mass–Energy Equivalence (E = mc^2)</li>
+    </ul>
+    <button id="ask-einstein">Ask Einstein</button>
+    <div id="reply-einstein" class="bio" style="margin-top:10px;"></div>
+  </div>
+
+  <div class="card newton">
+    <span class="badge">Mathematics • Physics</span>
+    <h2>Isaac Newton</h2>
+    <p class="role">Mathematician and Natural Philosopher</p>
+    <p class="intro">“If I have seen further, it is by standing on the shoulders of giants.”</p>
+    <p class="bio">English polymath whose laws of motion and universal gravitation laid the foundations of classical mechanics, along with pivotal contributions to calculus and optics.</p>
+    <ul>
+      <li>Laws of Motion and Universal Gravitation</li>
+      <li>Infinitesimal Calculus (co-creator)</li>
+      <li>Corpuscular Theory of Light and Prism Experiments</li>
+    </ul>
+    <button id="ask-newton">Ask Newton</button>
+    <div id="reply-newton" class="bio" style="margin-top:10px;"></div>
+  </div>
+
+  <div class="card aryabhatta">
+    <span class="badge">Mathematics • Astronomy</span>
+    <h2>Aryabhatta</h2>
+    <p class="role">Mathematician and Astronomer</p>
+    <p class="intro">“Numbers reveal the rhythm of the cosmos.”</p>
+    <p class="bio">Ancient Indian mathematician-astronomer whose treatise Aryabhatiya presented foundational results in arithmetic, algebra, and celestial models, centuries ahead of his time.</p>
+    <ul>
+      <li>Approximation of π and place-value system usage</li>
+      <li>Trigonometric functions: sine (jya) and cosine (kojya)</li>
+      <li>Heliocentric insights and Earth's rotation concepts</li>
+    </ul>
+    <button id="ask-aryabhatta">Ask Aryabhatta</button>
+    <div id="reply-aryabhatta" class="bio" style="margin-top:10px;"></div>
+  </div>
+  <script>
+    async function ask(character, replyId) {
+      const el = document.getElementById(replyId);
+      el.textContent = "Thinking...";
+      try {
+        const res = await fetch(`/api/interview?character=${encodeURIComponent(character)}`);
+        const data = await res.json();
+        if (!res.ok) {
+          el.textContent = data.error || "Error";
+          return;
+        }
+        el.textContent = data.text || "";
+      } catch (e) {
+        el.textContent = String(e);
+      }
+    }
+    document.getElementById('ask-einstein').addEventListener('click', () => ask('einstein', 'reply-einstein'));
+    document.getElementById('ask-newton').addEventListener('click', () => ask('newton', 'reply-newton'));
+    document.getElementById('ask-aryabhatta').addEventListener('click', () => ask('aryabhatta', 'reply-aryabhatta'));
+  </script>
+{% endblock %}
+
+
