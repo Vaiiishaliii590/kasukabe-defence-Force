@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, flash, url_for, session, flash, redirect
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -13,7 +13,7 @@ def _get_api_key() -> str:
         or ""
     )
 
-
+users = {}
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -123,3 +123,45 @@ if __name__ == "__main__":
     app.run(host=host, port=port, debug=debug)
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username in users and users[username] == password:
+            session["user"] = username
+            flash("Login successful!", "success")
+            return redirect(url_for("home"))
+        else:
+            flash("Invalid credentials, please try again.", "error")
+    
+    return '''
+        <form method="POST">
+            <h2>Login</h2>
+            <input type="text" name="username" placeholder="Username" required><br><br>
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <button type="submit">Login</button>
+        </form>
+        <a href="/signup">Don't have an account? Signup</a>
+    '''
+
+@app.route("/home")
+def home():
+    if "user" in session:
+        return f'''
+            <h1>Welcome, {session["user"]}!</h1>
+            <a href="/logout">Logout</a>
+        '''
+    else:
+        flash("Please login first.", "error")
+        return redirect(url_for("login"))
+    
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    flash("Logged out successfully!", "info")
+    return redirect(url_for("login"))
+
+if __name__ == "__main__":
+    app.run(debug=True)
